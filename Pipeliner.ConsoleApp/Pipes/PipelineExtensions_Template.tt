@@ -1,0 +1,26 @@
+<#@ template language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+
+
+namespace Pipeliner.ConsoleApp.Pipes;
+
+public static class GeneratedPipelineExtensions
+{
+
+<#
+    var numberOfArgs = 32;
+    var args = Enumerable.Range(0, numberOfArgs);
+    var genericArguments = args.Select(f => $"T{f}").ToArray();
+    var pairs = args.Take(genericArguments.Length - 1).Zip(
+        args.Skip(1), (left, right) => $"Func<T{left}, T{right}> f{left}");
+
+    for (var i = 3; i < numberOfArgs; i++)
+    {
+#>
+    public static ITransformPipe<T0, <#= genericArguments[i - 1] #>> Combine<<#= string.Join(",", genericArguments.Take(i)) #>>(this ISourcePipe<T0> sourcePipe, <#= string.Join(",", pairs.Take(i - 1)) #>) => new TransformPipe<T0, <#= genericArguments[i - 1] #>>(f => <#=
+                string.Join("(", args.Take(i - 1).OrderByDescending(f => f).Select(f => $"f{f}")) #>(f<#= string.Empty.PadLeft(i - 1, ')') #>);
+<#
+    }
+#>
+}
