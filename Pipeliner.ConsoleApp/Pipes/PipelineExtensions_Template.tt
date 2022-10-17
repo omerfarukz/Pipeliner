@@ -19,7 +19,7 @@ public static class GeneratedPipelineExtensions
     {
 #>
     public static ITransformPipe<T0, <#= genericArguments[i - 1] #>> Combine<<#= string.Join(",", genericArguments.Take(i)) #>>(this ISourcePipe<T0> sourcePipe, <#= string.Join(",", pairs.Take(i - 1)) #>) => new TransformPipe<T0, <#= genericArguments[i - 1] #>>(f => <#=
-                string.Join("(", args.Take(i - 1).OrderByDescending(f => f).Select(f => $"f{f}")) #>(f<#= string.Empty.PadLeft(i - 1, ')') #>);
+            string.Join("(", args.Take(i - 1).OrderByDescending(f => f).Select(f => $"f{f}")) #>(f<#= string.Empty.PadLeft(i - 1, ')') #>);
 <#
     }
 #>

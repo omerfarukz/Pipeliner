@@ -15,7 +15,7 @@ public static class PipeExtensions
     {
         return new TransformPipe<TInput, TOutput>(func);
     }
-    
+
     #endregion
 
     #region ITargetPipe

@@ -1,6 +1,6 @@
 namespace Pipeliner.ConsoleApp.Pipes;
 
-public static class IEnumerableExtensions
+public static class EnumerableExtensions
 {
     public static IAsyncEnumerable<T> AsAsyncEnumerable<T>(this IEnumerable<T> enumerable)
     {
@@ -15,7 +15,7 @@ public static class IEnumerableExtensions
             yield return await func(item);
         }
     }
-    
+
     public static async IAsyncEnumerable<TOutput> Map<TInput, TOutput>(this IAsyncEnumerable<TInput> enumerable,
         Func<TInput, TOutput> func)
     {

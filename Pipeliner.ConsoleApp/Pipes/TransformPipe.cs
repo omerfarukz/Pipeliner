@@ -18,7 +18,7 @@ public class TransformPipe<TInput, TOutput> : ITransformPipe<TInput, TOutput>
             return newSourcePipe;
         };
     }
-    
+
     public TransformPipe(Func<TInput, Task<TOutput>> func)
     {
         _func = sourcePipe =>

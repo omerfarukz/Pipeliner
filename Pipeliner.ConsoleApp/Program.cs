@@ -9,8 +9,8 @@ await new SourcePipe<string>()
     .Then(f => Array.ConvertAll(f, double.Parse))
     .Then(f => f.Sum())
     .Execute(
-        new[] {"1 2 3"}, 
-        Console.WriteLine       // 6
+        new[] {"1 2 3"},
+        Console.WriteLine // 6
     );
 
 /*
@@ -19,15 +19,15 @@ await new SourcePipe<string>()
 var combineElements = new double[] {1, 2, 3, 4, 5};
 var convertPipeline = new SourcePipe<double>()
     .Combine(
-        Convert.ToString,   // Convert from double to string
-        Convert.ToChar,     // Convert from string to char
-        Convert.ToByte,     // Convert from char to byte
-        Convert.ToInt32     // Convert from byte to int
+        Convert.ToString, // Convert from double to string
+        Convert.ToChar, // Convert from string to char
+        Convert.ToByte, // Convert from char to byte
+        Convert.ToInt32 // Convert from byte to int
     );
 
 await convertPipeline.Execute(
-    combineElements,    // 1, 2, 3, 4, 5
-    Console.Write       // 4950515253
+    combineElements, // 1, 2, 3, 4, 5
+    Console.Write // 4950515253
 );
 
 /*
@@ -44,8 +44,7 @@ var extractWordsPipe = new SourcePipe<Uri>()
 
 var uris = new[]
 {
-    new Uri("https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.profiling.min.js"),
     new Uri("https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js")
 };
 
-await extractWordsPipe.Execute(uris, Console.WriteLine);
+await extractWordsPipe.Execute(uris, Console.WriteLine); // in,void,new

@@ -9,7 +9,7 @@ public class AsyncEnumerable<T> : IAsyncEnumerable<T>
         _enumator = new AsyncEnumerator(enumerable);
     }
 
-    public async IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = new CancellationToken())
+    public async IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = new())
     {
         while (await _enumator.MoveNextAsync())
         {
