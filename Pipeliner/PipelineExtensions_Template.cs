@@ -1,6 +1,8 @@
 ﻿
 
-namespace Pipeliner.ConsoleApp.Pipes;
+using System;
+
+namespace Pipeliner;
 
 public static class GeneratedPipelineExtensions
 {

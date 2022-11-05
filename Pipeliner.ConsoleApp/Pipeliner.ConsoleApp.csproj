@@ -8,18 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Update="Pipes\PipelineExtensions_Template.tt">
-            <Generator>TextTemplatingFileGenerator</Generator>
-            <LastGenOutput>PipelineExtensions_Template.cs</LastGenOutput>
-        </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="Pipes\PipelineExtensions_Template.cs">
-            <AutoGen>True</AutoGen>
-            <DesignTime>True</DesignTime>
-            <DependentUpon>PipelineExtensions_Template.tt</DependentUpon>
-        </Compile>
+      <ProjectReference Include="..\Pipeliner\Pipeliner.csproj" />
     </ItemGroup>
 
 </Project>

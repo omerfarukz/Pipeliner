@@ -1,4 +1,6 @@
-namespace Pipeliner.ConsoleApp.Pipes;
+using System.Collections.Generic;
+
+namespace Pipeliner;
 
 public interface ISourcePipe<out TOutput>
 {

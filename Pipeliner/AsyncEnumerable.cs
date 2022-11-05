@@ -1,42 +1,45 @@
-namespace Pipeliner.ConsoleApp.Pipes;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Pipeliner;
 
 public class AsyncEnumerable<T> : IAsyncEnumerable<T>
 {
-    private readonly AsyncEnumerator _enumator;
+    private readonly AsyncEnumerator _enumerator;
 
     public AsyncEnumerable(IEnumerable<T> enumerable)
     {
-        _enumator = new AsyncEnumerator(enumerable);
+        _enumerator = new AsyncEnumerator(enumerable);
     }
 
     public async IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = new())
     {
-        while (await _enumator.MoveNextAsync())
+        while (await _enumerator.MoveNextAsync())
         {
-            yield return _enumator.Current;
+            yield return _enumerator.Current;
         }
     }
 
-    public class AsyncEnumerator : IAsyncEnumerator<T>
+    private class AsyncEnumerator : IAsyncEnumerator<T>
     {
         private readonly IEnumerator<T> _enumerator;
 
         public AsyncEnumerator(IEnumerable<T> enumerable)
         {
-            if (enumerable == null)
-                throw new ArgumentNullException(nameof(enumerable));
-
             _enumerator = enumerable.GetEnumerator();
         }
 
         public ValueTask DisposeAsync()
         {
-            return ValueTask.CompletedTask;
+            return new ValueTask(Task.CompletedTask);
         }
 
         public ValueTask<bool> MoveNextAsync()
         {
-            return ValueTask.FromResult(_enumerator.MoveNext());
+            return new ValueTask<bool>(_enumerator.MoveNext());
         }
 
         public T Current => _enumerator.Current;

@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using Pipeliner.ConsoleApp.Pipes;
+using Pipeliner;
 
 /*
  * Example 1

@@ -1,4 +1,8 @@
-namespace Pipeliner.ConsoleApp.Pipes;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Pipeliner;
 
 public static class PipeExtensions
 {

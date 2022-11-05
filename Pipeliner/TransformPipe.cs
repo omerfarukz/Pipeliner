@@ -1,4 +1,7 @@
-namespace Pipeliner.ConsoleApp.Pipes;
+using System;
+using System.Threading.Tasks;
+
+namespace Pipeliner;
 
 public class TransformPipe<TInput, TOutput> : ITransformPipe<TInput, TOutput>
 {

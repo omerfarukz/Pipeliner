@@ -1,4 +1,8 @@
-namespace Pipeliner.ConsoleApp.Pipes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Pipeliner;
 
 public class SourcePipe<TInput> : ISourcePipe<TInput>
 {
