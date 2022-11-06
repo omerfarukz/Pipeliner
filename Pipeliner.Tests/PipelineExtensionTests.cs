@@ -14,7 +14,14 @@ public class PipelineExtensionTests
     {
         var sourcePipe = new SourcePipe<int>();
         var intToStringTransformPipe = sourcePipe.Then(f => f.ToString());
-        intToStringTransformPipe.Execute(Enumerable.Range(0, 10), Console.Out.Write);
+
+        var collection = new List<string>();
+        intToStringTransformPipe.Execute(Enumerable.Range(1, 3), collection.Add);
+        
+        Assert.Equal(3, collection.Count);
+        Assert.Equal("1", collection[0]);
+        Assert.Equal("2", collection[1]);
+        Assert.Equal("3", collection[2]);
     }
 
     [Fact]
