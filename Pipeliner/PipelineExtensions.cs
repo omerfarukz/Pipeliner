@@ -18,25 +18,6 @@ public static class PipeExtensions
         return new TransformPipe<TInput, TOutput>(func);
     }
 
-    public static Task Execute<TInput>(this IEnumerable<TInput> source, Action<TInput> action)
-    {
-        var sourcePipe = new SourcePipe<TInput>();
-        sourcePipe.Set(() => source);
-        return Execute(sourcePipe, action);
-    }
-
-    public static Task Execute<TInput>(this ISourcePipe<TInput> sourcePipe, Action<TInput> action)
-    {
-        return new TargetPipe<TInput>(action).Execute(sourcePipe);
-    }
-
-    public static Task Execute<TInput>(this ITargetPipe<TInput> targetPipe, IEnumerable<TInput> enumerable)
-    {
-        var sourcePipe = new SourcePipe<TInput>();
-        sourcePipe.Set(() => enumerable);
-        return targetPipe.Execute(sourcePipe);
-    }
-    
     public static ITransformPipe<TInput, TNext> Then<TInput, TOutput, TNext>(
         this ITransformPipe<TInput, TOutput> transformPipe,
         Func<TOutput, TNext> func
@@ -63,6 +44,25 @@ public static class PipeExtensions
             nextSource.Set(() => outputSource.Fetch().Map(func));
             return nextSource;
         });
+    }
+    
+    public static Task Execute<TInput>(this IEnumerable<TInput> source, Action<TInput> action)
+    {
+        var sourcePipe = new SourcePipe<TInput>();
+        sourcePipe.Set(() => source);
+        return Execute(sourcePipe, action);
+    }
+
+    public static Task Execute<TInput>(this ISourcePipe<TInput> sourcePipe, Action<TInput> action)
+    {
+        return new TargetPipe<TInput>(action).Execute(sourcePipe);
+    }
+
+    public static Task Execute<TInput>(this ITargetPipe<TInput> targetPipe, IEnumerable<TInput> enumerable)
+    {
+        var sourcePipe = new SourcePipe<TInput>();
+        sourcePipe.Set(() => enumerable);
+        return targetPipe.Execute(sourcePipe);
     }
     
     public static Task Execute<TInput, TOutput>(

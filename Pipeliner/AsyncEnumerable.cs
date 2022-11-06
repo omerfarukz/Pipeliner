@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -8,18 +6,19 @@ namespace Pipeliner;
 
 public class AsyncEnumerable<T> : IAsyncEnumerable<T>
 {
-    private readonly AsyncEnumerator _enumerator;
+    private readonly IEnumerable<T> _enumerable;
 
     public AsyncEnumerable(IEnumerable<T> enumerable)
     {
-        _enumerator = new AsyncEnumerator(enumerable);
+        _enumerable = enumerable;
     }
 
     public async IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = new())
     {
-        while (await _enumerator.MoveNextAsync())
+        await using var enumerator = new AsyncEnumerator(_enumerable);
+        while (await enumerator.MoveNextAsync())
         {
-            yield return _enumerator.Current;
+            yield return enumerator.Current;
         }
     }
 
