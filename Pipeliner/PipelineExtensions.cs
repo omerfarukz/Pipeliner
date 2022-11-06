@@ -6,8 +6,6 @@ namespace Pipeliner;
 
 public static class PipeExtensions
 {
-    #region SourcePipe
-
     public static ITransformPipe<TInput, TOutput> Then<TInput, TOutput>(
         this ISourcePipe<TInput> sourcePipe, Func<TInput, TOutput> func)
     {
@@ -19,10 +17,6 @@ public static class PipeExtensions
     {
         return new TransformPipe<TInput, TOutput>(func);
     }
-
-    #endregion
-
-    #region ITargetPipe
 
     public static Task Execute<TInput>(this IEnumerable<TInput> source, Action<TInput> action)
     {
@@ -42,11 +36,35 @@ public static class PipeExtensions
         sourcePipe.Set(() => enumerable);
         return targetPipe.Execute(sourcePipe);
     }
+    
+    public static ITransformPipe<TInput, TNext> Then<TInput, TOutput, TNext>(
+        this ITransformPipe<TInput, TOutput> transformPipe,
+        Func<TOutput, TNext> func
+    )
+    {
+        return new TransformPipe<TInput, TNext>(pipe =>
+        {
+            var nextSource = new SourcePipe<TNext>();
+            var outputSource = transformPipe.Transform(pipe);
+            nextSource.Set(() => outputSource.Fetch().Map(func));
+            return nextSource;
+        });
+    }
 
-    #endregion
-
-    #region TransformPipe
-
+    public static ITransformPipe<TInput, TNext> Then<TInput, TOutput, TNext>(
+        this ITransformPipe<TInput, TOutput> transformPipe,
+        Func<TOutput, Task<TNext>> func
+    )
+    {
+        return new TransformPipe<TInput, TNext>(pipe =>
+        {
+            var nextSource = new SourcePipe<TNext>();
+            var outputSource = transformPipe.Transform(pipe);
+            nextSource.Set(() => outputSource.Fetch().Map(func));
+            return nextSource;
+        });
+    }
+    
     public static Task Execute<TInput, TOutput>(
         this ITransformPipe<TInput, TOutput> transformPipe,
         IEnumerable<TInput> source,
@@ -76,35 +94,4 @@ public static class PipeExtensions
     {
         return transformPipe.Transform(sourcePipe).Execute(action);
     }
-
-    public static ITransformPipe<TInput, TNext> Then<TInput, TOutput, TNext>(
-        this ITransformPipe<TInput, TOutput> transformPipe,
-        Func<TOutput, TNext> func
-    )
-    {
-        return new TransformPipe<TInput, TNext>(pipe =>
-        {
-            var nextSource = new SourcePipe<TNext>();
-            var outputSource = transformPipe.Transform(pipe);
-            nextSource.Set(() => outputSource.Fetch().Map(func));
-            return nextSource;
-        });
-    }
-
-    public static ITransformPipe<TInput, TNext> Then<TInput, TOutput, TNext>(
-        this ITransformPipe<TInput, TOutput> transformPipe,
-        Func<TOutput, Task<TNext>> func
-    )
-    {
-        return new TransformPipe<TInput, TNext>(pipe =>
-        {
-            var nextSource = new SourcePipe<TNext>();
-            var outputSource = transformPipe.Transform(pipe);
-            nextSource.Set(() => outputSource.Fetch().Map(func));
-            return nextSource;
-        });
-    }
-
-    #endregion
-    
 }

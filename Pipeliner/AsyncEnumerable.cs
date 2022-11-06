@@ -23,7 +23,7 @@ public class AsyncEnumerable<T> : IAsyncEnumerable<T>
         }
     }
 
-    private class AsyncEnumerator : IAsyncEnumerator<T>
+    private sealed class AsyncEnumerator : IAsyncEnumerator<T>
     {
         private readonly IEnumerator<T> _enumerator;
 
