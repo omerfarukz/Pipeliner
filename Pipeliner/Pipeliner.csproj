@@ -19,6 +19,7 @@
         <DesignTime>True</DesignTime>
         <DependentUpon>PipelineExtensions_Template.tt</DependentUpon>
       </Compile>
+      <Compile Remove="PipeExtensions.cs" />
     </ItemGroup>
 
 
