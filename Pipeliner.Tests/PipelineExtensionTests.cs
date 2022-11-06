@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -12,7 +13,7 @@ public class PipelineExtensionTests
     public void test()
     {
         var sourcePipe = new SourcePipe<int>();
-        var intToStringTransformPipe = sourcePipe.Then(f=> f.ToString());
+        var intToStringTransformPipe = sourcePipe.Then(f => f.ToString());
 
 
         intToStringTransformPipe.Execute(Enumerable.Range(0, 10), Console.Write);
@@ -28,7 +29,7 @@ public class PipelineExtensionTests
         Assert.Equal(2, collection[1]);
         Assert.Equal(3, collection[2]);
     }
-    
+
     [Fact]
     public void target_pipe_should_be_executed_with_enumerable()
     {
@@ -36,7 +37,35 @@ public class PipelineExtensionTests
         var targetPipe = new TargetPipe<int>(f => collection.Add(f));
 
         targetPipe.Execute(Enumerable.Range(1, 3));
-        
+
+        Assert.Equal(3, collection.Count);
+        Assert.Equal(1, collection[0]);
+        Assert.Equal(2, collection[1]);
+        Assert.Equal(3, collection[2]);
+    }
+
+    [Fact]
+    public void cast_transform_pipe_should_pass()
+    {
+        var collection = new List<int>();
+        var transformPipe = new TransformPipe<int, string>(f => f.ToString()).Then(int.Parse);
+        transformPipe.Execute(Enumerable.Range(1, 3), collection.Add);
+
+        Assert.Equal(3, collection.Count);
+        Assert.Equal(1, collection[0]);
+        Assert.Equal(2, collection[1]);
+        Assert.Equal(3, collection[2]);
+    }
+
+    [Fact]
+    public void cast_transform_pipe_with_over_source_pipe_should_pass()
+    {
+        var collection = new List<int>();
+        var sourcePipe = new SourcePipe<int>();
+        sourcePipe.Set(() => Enumerable.Range(1, 3));
+        var transformPipe = new TransformPipe<int, string>(f => f.ToString()).Then(int.Parse);
+        transformPipe.Execute(sourcePipe, collection.Add);
+
         Assert.Equal(3, collection.Count);
         Assert.Equal(1, collection[0]);
         Assert.Equal(2, collection[1]);
@@ -44,15 +73,21 @@ public class PipelineExtensionTests
     }
     
     [Fact]
-    public void cast_transform_pipe_should_pass()
+    public void transform_the_transform_pipe_from_input_to_output_and_next_should_pass()
     {
-        var collection = new List<int>();
-        var transformPipe = new TransformPipe<int, string>(f => f.ToString()).Then(int.Parse);
-        transformPipe.Execute(Enumerable.Range(1, 3), collection.Add);
-        
+        var multipleIntPipe = new TransformPipe<int, double>(f => Math.Pow(2, f));
+        var intToStringPipeOverMultiplication = multipleIntPipe.Then(async f =>
+        {
+            await Task.Delay(0);
+            return f.ToString(CultureInfo.InvariantCulture);
+        });
+
+        var collection = new List<string>();
+        intToStringPipeOverMultiplication.Execute(Enumerable.Range(1, 3), collection.Add);
+
         Assert.Equal(3, collection.Count);
-        Assert.Equal(1, collection[0]);
-        Assert.Equal(2, collection[1]);
-        Assert.Equal(3, collection[2]);
+        Assert.Equal("2", collection[0]);
+        Assert.Equal("4", collection[1]);
+        Assert.Equal("8", collection[2]);
     }
 }
