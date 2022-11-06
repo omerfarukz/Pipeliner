@@ -10,13 +10,11 @@ namespace Pipeliner.Tests;
 public class PipelineExtensionTests
 {
     [Fact]
-    public void test()
+    public void source_pipe_should_be_transformed()
     {
         var sourcePipe = new SourcePipe<int>();
         var intToStringTransformPipe = sourcePipe.Then(f => f.ToString());
-
-
-        intToStringTransformPipe.Execute(Enumerable.Range(0, 10), Console.Write);
+        intToStringTransformPipe.Execute(Enumerable.Range(0, 10), Console.Out.Write);
     }
 
     [Fact]
