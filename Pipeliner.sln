@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipeliner.ConsoleApp", "Pipeliner.ConsoleApp\Pipeliner.ConsoleApp.csproj", "{3179E6A7-9369-4AE2-9035-412B5FC2F64A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples.ConsoleApp", "Samples.ConsoleApp\Samples.ConsoleApp.csproj", "{3179E6A7-9369-4AE2-9035-412B5FC2F64A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pipeliner", "Pipeliner\Pipeliner.csproj", "{0678AD03-6323-418C-AF13-CA3DFA242FE9}"
 EndProject
