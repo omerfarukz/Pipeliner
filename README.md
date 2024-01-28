@@ -2,10 +2,8 @@
 Experimental pipeline builder
 
 
-[![CI & CD](https://github.com/omerfarukz/Pipeliner/actions/workflows/CI&CD.yml/badge.svg)](https://github.com/omerfarukz/Pipeliner/actions/workflows/CI&CD.yml)
 [![license](https://img.shields.io/github/license/omerfarukz/Pipeliner)](https://github.com/omerfarukz/Pipeliner/blob/master/LICENSE.txt)
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=omerfarukz_Pipeliner&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=omerfarukz_Pipeliner)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=omerfarukz_Pipeliner&metric=coverage)](https://sonarcloud.io/summary/new_code?id=omerfarukz_Pipeliner)
 
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=omerfarukz_Pipeliner&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=omerfarukz_Pipeliner)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=omerfarukz_Pipeliner&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=omerfarukz_Pipeliner)
